@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="GithubApp">
+<head>
+	<title>Github Viewer</title>
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+</head>
+<body ng-controller="GithubController" style="background-color: #f0db4f;">
+	<br/>
+	<div class="container">
+		<div class="panel panel-info">
+		  <div class="panel-heading"><h2>{{title}}</h2></div>
+		  <div class="panel-heading">
+		  	<form>
+		  		<input type="search" class="form-control" placeholder="Search for..." ng-model="username" required><br/>
+		  		<button class="btn btn-primary" type="submit" ng-click="search(username)">Search</button>
+		  	</form>
+		  </div>
+		  <div class="panel-body" ng-show="user">
+				<!-- <h1>{{error}}</h1> -->
+				<h3>Name : {{user.name}}</h3>
+				<img ng-src="{{user.avatar_url}}" title="{{user.name}}" width="200" height="200">
+				Order : 
+				<select ng-model="repoSortOrder">
+					<option value="+name">Name</option>
+					<option value="-stargazers_count">Stars</option>
+					<option value="+open_issues_count">Issue Count</option>
+				</select>
+		  </div>
+		  <div class="panel-body" ng-hide="!user">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Stars</th>
+							<th>Language</th>
+							<th>Issue Count</th>
+							<th>Url</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="repo in repos | orderBy:repoSortOrder ">
+							<td>{{repo.name}}</td>
+							<td>{{repo.stargazers_count}}</td>
+							<td>{{repo.language}}</td>
+							<td>{{repo.open_issues_count}}</td>
+							<td><a ng-href="{{repo.clone_url}}">{{repo.clone_url}}</a></td>
+						</tr>
+					</tbody>
+				</table>
+		  </div>
+		</div>	
+	</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
